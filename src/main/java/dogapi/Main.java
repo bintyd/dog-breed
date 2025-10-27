@@ -1,10 +1,11 @@
 package dogapi;
 
 import java.util.List;
+import java.util.prefs.BackingStoreException;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws BreedFetcher.BreedNotFoundException {
         String breed = "hound";
         BreedFetcher breedFetcher = new CachingBreedFetcher(new BreedFetcherForLocalTesting());
         int result = getNumberOfSubBreeds(breed, breedFetcher);
@@ -18,14 +19,14 @@ public class Main {
     /**
      * Return the number of sub breeds that the given dog breed has according to the
      * provided fetcher.
-     * @param breed the name of the dog breed
+     *
+     * @param breed        the name of the dog breed
      * @param breedFetcher the breedFetcher to use
      * @return the number of sub breeds. Zero should be returned if there are no sub breeds
      * returned by the fetcher
      */
-    public static int getNumberOfSubBreeds(String breed, BreedFetcher breedFetcher) {
-        List subbreeds = breedFetcher.getSubBreeds(breed);
+    public static int getNumberOfSubBreeds(String breed, BreedFetcher breedFetcher) throws BreedFetcher.BreedNotFoundException {
+        List<String> subbreeds = breedFetcher.getSubBreeds(breed);
         return subbreeds.size();
-
     }
 }
